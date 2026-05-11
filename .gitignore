@@ -1,3 +1,2 @@
-build/main.exe
-data/users.txt
-src/menu.cpp
+build
+data

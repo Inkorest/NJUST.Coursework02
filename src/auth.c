@@ -1,7 +1,7 @@
 #include "auth.h"
 #include <stdio.h>
 #include <windows.h>
-#include "general_func.h"
+#include "utils.h"
 
 static char username[20];
 static char password[20];
