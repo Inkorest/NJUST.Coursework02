@@ -1,5 +1,5 @@
-#ifndef GENERAL_FUNC_H
-#define GENERAL_FUNC_H
+#ifndef UTILS_H
+#define UTILS_H
 
 void gotoxy(int, int);
 
