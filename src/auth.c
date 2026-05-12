@@ -10,14 +10,14 @@ static char phone[20];
 
 static void register_display();
 
-int user_register()
+void user_register()
 {
     const char users_file[] = "data/users.txt";
     FILE *fp = fopen(users_file, "w");
     if (fp == NULL)
     {
         printf("无法创建数据文件。\n");
-        return 1;
+        exit(1);
     }
 
     system("cls");
@@ -97,7 +97,6 @@ int user_register()
     printf("\n注册成功。\n");
     Sleep(1000);
     fclose(fp);
-    return 0;
 }
 
 void register_display()
