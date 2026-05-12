@@ -32,7 +32,7 @@ int menu(const char *overview[], const char *choices[], const char *information[
         gotoxy(0, overview_count + current_choice + 1);
         printf("->");
         gotoxy(0, overview_count + choice_count + 3);
-        printf("  %s", information[current_choice]);
+        printf("\33[2K  %s", information[current_choice]);
         do
             key = _getch();
         while (key != 224 && key != ENTER);

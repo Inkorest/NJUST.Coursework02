@@ -8,6 +8,8 @@ static char password[20];
 static char confirm_password[20];
 static char phone[20];
 
+static void register_display();
+
 int user_register()
 {
     const char users_file[] = "data/users.txt";
@@ -19,82 +21,80 @@ int user_register()
     }
 
     system("cls");
+    register_display();
+
+    gotoxy(0, 7);
+    printf("信息\n  用户名只能由字母或数字组成，且位数在 6-16 位之间。\n");
 
     while (1)
     {
-        register_display();
         gotoxy(12, 2);
+        printf("\33[K");
         scanf("%s", username);
         if (strlen(username) >= 6 && strlen(username) <= 16 && is_digit_or_letter_str(username))
         {
             fprintf(fp, "username: %s\n", username);
             break;
         }
-        username[0] = '\0';
-        register_display();
         gotoxy(12, 2);
-        printf("请输入合法的用户名。");
+        printf("\33[K请输入合法的用户名。");
         Sleep(1000);
-        gotoxy(12, 2);
-        printf("                   ");
     }
+    gotoxy(0, 8);
+    printf("\33[K  密码位数在 4-16 位之间。\n");
 
     while (1)
     {
-        register_display();
         gotoxy(12, 3);
+        printf("\33[K");
         scanf("%s", password);
         if (strlen(password) >= 4 && strlen(password) <= 16 && is_digit_or_letter_str(password))
         {
             fprintf(fp, "password: %s\n", password);
             break;
         }
-        password[0] = '\0';
-        register_display();
         gotoxy(12, 3);
-        printf("请输入合法的密码。");
+        printf("\33[K请输入合法的密码。");
         Sleep(1000);
-        gotoxy(12, 3);
-        printf("                 ");
     }
+
+    gotoxy(0, 8);
+    printf("\33[K  再次输入密码。\n");
 
     while (1)
     {
-        register_display();
         gotoxy(12, 4);
+        printf("\33[K");
         scanf("%s", confirm_password);
         if (strcmp(password, confirm_password) == 0)
             break;
-        confirm_password[0] = '\0';
-        register_display();
         gotoxy(12, 4);
-        printf("两次输入的密码不一致，请重新输入。");
+        printf("\33[K两次输入的密码不一致，请重新输入。");
         Sleep(1000);
-        gotoxy(12, 4);
-        printf("                                 ");
     }
+
+    gotoxy(0, 8);
+    printf("\33[K  请输入 11 位手机号。\n");
 
     while (1)
     {
-        register_display();
         gotoxy(12, 5);
+        printf("\33[K");
         scanf("%s", phone);
         if (strlen(phone) == 11 && is_digit_str(phone))
         {
             fprintf(fp, "phone: %s\n", phone);
             break;
         }
-        phone[0] = '\0';
-        register_display();
         gotoxy(12, 5);
-        printf("请输入合法的手机号。");
+        printf("\33[K请输入合法的手机号。");
         Sleep(1000);
-        gotoxy(12, 5);
-        printf("                   ");
     }
 
-    register_display();
-    printf("\n注册成功！\n");
+    gotoxy(0, 7);
+    printf("\33[K\n\33[K");
+    gotoxy(0, 7);
+    printf("\n注册成功。\n");
     Sleep(1000);
     fclose(fp);
     return 0;
@@ -102,18 +102,10 @@ int user_register()
 
 void register_display()
 {
-    gotoxy(0, 7);
-    printf("\33[K\n\33[K");
     gotoxy(0, 0);
     printf("用户注册\n\n");
-    printf("%-16s%s\n", "用户昵称", username);
-    printf("%-16s%s\n", "登录密码", password);
-    printf("%-16s%s\n", "确认密码", confirm_password);
-    printf("%-15s%s\n", "手机号", phone);
-    if (!*username)
-        printf("\n信息\n  用户名只能由字母或数字组成，且位数在 6-16 位之间。\n");
-    else if (!*password)
-        printf("\n信息\n  密码位数在 4-16 位之间。\n");
-    else if (*confirm_password && !*phone)
-        printf("\n信息\n  请输入 11 位手机号。\n");
+    printf("%-16s\n", "用户昵称");
+    printf("%-16s\n", "登录密码");
+    printf("%-16s\n", "确认密码");
+    printf("%-15s\n", "手机号");
 }
