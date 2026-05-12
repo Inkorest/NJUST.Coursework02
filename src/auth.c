@@ -92,9 +92,7 @@ void user_register()
     }
 
     gotoxy(0, 7);
-    printf("\33[K\n\33[K");
-    gotoxy(0, 7);
-    printf("\n注册成功。\n");
+    printf("\33[K注册成功。\n\33[K");
     Sleep(1000);
     fclose(fp);
 }
