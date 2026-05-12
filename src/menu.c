@@ -24,15 +24,14 @@ int menu(const char *overview[], const char *choices[], const char *information[
     printf("\n");
     for (int i = 0; i < choice_count; i++)
         printf("    %s\n", choices[i]);
-    printf("\n\n\n\n");
+    printf("\n信息\n\n\n");
     printf("[ ↑/↓ ] 选择  [ Enter ] 确定\n");
 
     while (1)
     {
         gotoxy(0, overview_count + current_choice + 1);
         printf("->");
-        gotoxy(0, overview_count + choice_count + 2);
-        printf("信息\n");
+        gotoxy(0, overview_count + choice_count + 3);
         printf("  %s", information[current_choice]);
         do
             key = _getch();

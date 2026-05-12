@@ -8,12 +8,6 @@ static char password[20];
 static char confirm_password[20];
 static char phone[20];
 
-void gotoxy(int, int);
-int user_register();
-int is_digit_or_letter_str(char *);
-int is_digit_str(char *);
-void display();
-
 int user_register()
 {
     const char users_file[] = "data/users.txt";
@@ -28,7 +22,7 @@ int user_register()
 
     while (1)
     {
-        display();
+        register_display();
         gotoxy(12, 2);
         scanf("%s", username);
         if (strlen(username) >= 6 && strlen(username) <= 16 && is_digit_or_letter_str(username))
@@ -37,7 +31,7 @@ int user_register()
             break;
         }
         username[0] = '\0';
-        display();
+        register_display();
         gotoxy(12, 2);
         printf("请输入合法的用户名。");
         Sleep(1000);
@@ -47,7 +41,7 @@ int user_register()
 
     while (1)
     {
-        display();
+        register_display();
         gotoxy(12, 3);
         scanf("%s", password);
         if (strlen(password) >= 4 && strlen(password) <= 16 && is_digit_or_letter_str(password))
@@ -56,7 +50,7 @@ int user_register()
             break;
         }
         password[0] = '\0';
-        display();
+        register_display();
         gotoxy(12, 3);
         printf("请输入合法的密码。");
         Sleep(1000);
@@ -66,13 +60,13 @@ int user_register()
 
     while (1)
     {
-        display();
+        register_display();
         gotoxy(12, 4);
         scanf("%s", confirm_password);
         if (strcmp(password, confirm_password) == 0)
             break;
         confirm_password[0] = '\0';
-        display();
+        register_display();
         gotoxy(12, 4);
         printf("两次输入的密码不一致，请重新输入。");
         Sleep(1000);
@@ -82,7 +76,7 @@ int user_register()
 
     while (1)
     {
-        display();
+        register_display();
         gotoxy(12, 5);
         scanf("%s", phone);
         if (strlen(phone) == 11 && is_digit_str(phone))
@@ -91,7 +85,7 @@ int user_register()
             break;
         }
         phone[0] = '\0';
-        display();
+        register_display();
         gotoxy(12, 5);
         printf("请输入合法的手机号。");
         Sleep(1000);
@@ -99,32 +93,14 @@ int user_register()
         printf("                   ");
     }
 
-    display();
+    register_display();
     printf("\n注册成功！\n");
     Sleep(1000);
     fclose(fp);
     return 0;
 }
 
-int is_digit_or_letter_str(char *str)
-{
-    do
-        if (!isalnum(*str))
-            return 0;
-    while (*++str);
-    return 1;
-}
-
-int is_digit_str(char *str)
-{
-    do
-        if (!isdigit(*str))
-            return 0;
-    while (*++str);
-    return 1;
-}
-
-void display()
+void register_display()
 {
     gotoxy(0, 7);
     printf("\33[K\n\33[K");
