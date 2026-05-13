@@ -11,7 +11,7 @@
 				"-I${workspaceFolder}/include",
 				"${workspaceFolder}\\src\\*.c",
 				"-o",
-				"${workspaceFolder}\\build\\${fileBasenameNoExtension}.exe"
+				"${workspaceFolder}\\build\\main.exe"
 			],
 			"options": {
 				"cwd": "${fileDirname}"
