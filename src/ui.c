@@ -5,17 +5,21 @@
 #include "list.h"
 #include "student.h"
 
-static void main_menu();
-static void display_student_menu();
-static void sort_menu(int sort_by);
-static void list_menu(Student *head);
+typedef int (*MenuFunc)();
+
+static void menu_main();
+static void menu_search();
+static void menu_display();
+static void menu_sort(int sort_by);
+static void list_sorted(Student *head);
+static void menu_statistics();
 
 void ui()
 {
-    main_menu();
+    int current_page = 0;
 }
 
-static void main_menu()
+static void menu_main()
 {
     const char *overview[] = {
         "学生信息管理系统",
@@ -44,11 +48,13 @@ static void main_menu()
             add_student(&head);
             break;
         case 1:
+            menu_search();
             break;
         case 2:
-            display_student_menu();
+            menu_display();
             break;
         case 3:
+            menu_statistics();
             break;
         case 4:
         case -1:
@@ -57,7 +63,7 @@ static void main_menu()
     }
 }
 
-static void display_student_menu()
+static void menu_display()
 {
     const char *overview[] = {
         "主菜单 -> 输出学生信息",
@@ -82,11 +88,11 @@ static void display_student_menu()
         if (choice == -1)
             return;
         else
-            sort_menu(choice);
+            menu_sort(choice);
     }
 }
 
-static void sort_menu(int sort_by)
+static void menu_sort(int sort_by)
 {
     const char *breadcrumbs[] = {
         "主菜单 -> 输出学生信息 -> 按学号排序",
@@ -126,11 +132,11 @@ static void sort_menu(int sort_by)
             head = merge_sort(head, choice == 0, sort_by_total_score);
             break;
         }
-        list_menu(head);
+        list_sorted(head);
     }
 }
 
-static void list_menu(Student *head)
+static void list_sorted(Student *head)
 {
     const char *overview[] = {"学生信息", NULL};
     Student *target = list(overview, head);
