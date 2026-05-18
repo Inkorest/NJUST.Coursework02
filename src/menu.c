@@ -7,6 +7,7 @@
 #define UP 72
 #define DOWN 80
 #define ENTER 13
+#define ESC 27
 
 int menu(const char *overview[], const char *choices[], const char *information[])
 {
@@ -26,7 +27,7 @@ int menu(const char *overview[], const char *choices[], const char *information[
     for (int i = 0; i < choice_count; i++)
         printf("    %s\n", choices[i]);
     printf("\n信息\n\n\n");
-    printf("[ ↑/↓ ] 选择  [ Enter ] 确定\n");
+    printf("[ ↑/↓ ] 选择  [ Enter ] 确定  [ Esc ] 返回\n");
 
     while (1)
     {
@@ -36,7 +37,7 @@ int menu(const char *overview[], const char *choices[], const char *information[
         printf("\33[2K  %s", information[current_choice]);
         do
             key = _getch();
-        while (key != 224 && key != ENTER);
+        while (key != 224 && key != ENTER && key != ESC);
         if (key == 224)
         {
             key = _getch();
@@ -47,7 +48,9 @@ int menu(const char *overview[], const char *choices[], const char *information[
             if (key == DOWN)
                 current_choice = current_choice != choice_count - 1 ? (current_choice + 1) : 0;
         }
-        else
+        else if (key == ENTER)
             return current_choice;
+        else if (key == ESC)
+            return -1;
     }
 }

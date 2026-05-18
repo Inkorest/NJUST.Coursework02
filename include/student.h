@@ -15,7 +15,10 @@ Student *head;
 
 void add_student(Student **head);
 void delete_student(Student **head, Student *target);
-void display_student_list(Student *head);
-Student *merge_sort(Student *head, int (*sort_by)(Student *, Student *));
+Student *merge_sort(Student *head, int ascending, int (*sort_by)(const Student *, const Student *, int));
+int sort_by_id(const Student *a, const Student *b, int ascending);
+int sort_by_name(const Student *a, const Student *b, int ascending);
+int sort_by_major(const Student *a, const Student *b, int ascending);
+int sort_by_total_score(const Student *a, const Student *b, int ascending);
 
 #endif
