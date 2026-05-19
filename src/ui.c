@@ -1,25 +1,32 @@
 #include "ui.h"
 #include <stdio.h>
+#include <conio.h>
 #include <windows.h>
 #include "menu.h"
 #include "list.h"
+#include "search_list.h"
 #include "student.h"
 
 typedef int (*MenuFunc)();
 
-static void menu_main();
-static void menu_search();
-static void menu_display();
-static void menu_sort(int sort_by);
-static void list_sorted(Student *head);
-static void menu_statistics();
+static int menu_main();
+static int menu_search();
+static int menu_display();
+static int menu_sort(int sort_by);
+static int list_sorted();
+static int menu_statistics();
 
 void ui()
 {
     int current_page = 0;
+
+    MenuFunc menu_table[] = {menu_main, menu_search, menu_display, menu_statistics, list_sorted};
+
+    while (current_page != -1)
+        current_page = menu_table[current_page]();
 }
 
-static void menu_main()
+static int menu_main() // Menu 0
 {
     const char *overview[] = {
         "学生信息管理系统",
@@ -27,43 +34,59 @@ static void menu_main()
         NULL};
     const char *choices[] = {
         "录入学生信息",
-        "查询学生信息",
+        "查找学生信息",
         "输出学生信息",
         "统计学生成绩",
         "登出",
         NULL};
     const char *information[] = {
         "录入新的学生信息。",
-        "通过学号或姓名查询学生信息。",
+        "通过学号或姓名查找学生信息。",
         "按指定的排序方式输出学生信息。",
         "统计所有学生的成绩。",
         "登出系统。",
     };
+
     while (1)
     {
         int choice = menu(overview, choices, information);
-        switch (choice)
-        {
-        case 0:
-            add_student(&head);
-            break;
-        case 1:
-            menu_search();
-            break;
-        case 2:
-            menu_display();
-            break;
-        case 3:
-            menu_statistics();
-            break;
-        case 4:
-        case -1:
-            return;
-        }
+        if (choice == 4)
+            return -1;
+        if (choice == 0)
+            add_student(&student_head);
+        else
+            return choice;
     }
 }
 
-static void menu_display()
+static int menu_search() // Menu 1
+{
+    const char *overview[] = {
+        "主菜单 -> 查找学生信息",
+        "通过学号或姓名查找学生信息。",
+        "你想通过什么方式查找？",
+        NULL};
+    const char *choices[] = {
+        "学号",
+        "姓名",
+        NULL};
+    const char *information[] = {
+        "通过学号查找学生信息。",
+        "通过姓名查找学生信息。",
+        NULL};
+    while (1)
+    {
+        int choice = menu(overview, choices, information);
+        if (choice == -1)
+            return 0;
+        Student *target = search_list(choice);
+        if (target)
+            ;
+        return 0;
+    }
+}
+
+static int menu_display() // Menu 2
 {
     const char *overview[] = {
         "主菜单 -> 输出学生信息",
@@ -86,13 +109,13 @@ static void menu_display()
     {
         int choice = menu(overview, choices, information);
         if (choice == -1)
-            return;
-        else
-            menu_sort(choice);
+            return 0;
+        else if (menu_sort(choice))
+            return 4;
     }
 }
 
-static void menu_sort(int sort_by)
+static int menu_sort(int sort_by)
 {
     const char *breadcrumbs[] = {
         "主菜单 -> 输出学生信息 -> 按学号排序",
@@ -116,31 +139,44 @@ static void menu_sort(int sort_by)
     {
         int choice = menu(overview, choices, information);
         if (choice == -1)
-            return;
+            return 0;
         switch (sort_by)
         {
         case 0:
-            head = merge_sort(head, choice == 0, sort_by_id);
+            student_head = merge_sort(student_head, choice == 0, sort_by_id);
             break;
         case 1:
-            head = merge_sort(head, choice == 0, sort_by_name);
+            student_head = merge_sort(student_head, choice == 0, sort_by_name);
             break;
         case 2:
-            head = merge_sort(head, choice == 0, sort_by_major);
+            student_head = merge_sort(student_head, choice == 0, sort_by_major);
             break;
         case 3:
-            head = merge_sort(head, choice == 0, sort_by_total_score);
+            student_head = merge_sort(student_head, choice == 0, sort_by_total_score);
             break;
         }
-        list_sorted(head);
+        return 1;
     }
 }
 
-static void list_sorted(Student *head)
+static int list_sorted() // Menu 4
 {
-    const char *overview[] = {"学生信息", NULL};
-    Student *target = list(overview, head);
+    const char *overview[] = {"输出学生信息", "正在按指定的排序方式输出学生信息列表。", NULL};
+    Student *target = list(overview, student_head);
     if (target)
         ;
-    return;
+    return 0;
+}
+
+static int menu_statistics() // Menu 3
+{
+    system("cls");
+    printf("学生成绩统计\n正在统计已录入的学生信息。\n\n");
+    student_statistics(student_head);
+    printf("\n[ Esc ] 退出\n");
+    int key;
+    do
+        key = _getch();
+    while (key != 27);
+    return 0;
 }

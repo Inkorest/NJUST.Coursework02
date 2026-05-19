@@ -1,11 +1,12 @@
 #include "student.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <windows.h>
 #include "utils.h"
 #include "student_input.h"
 
-Student *head = NULL;
+Student *student_head = NULL;
 
 static Student *merge(Student *left, Student *right, int ascending, int (*sort_by)(const Student *, const Student *, int));
 
@@ -41,6 +42,35 @@ void delete_student(Student **head, Student *target)
         current->next = target->next;
         free(target);
     }
+}
+
+Index *search_student(int search_by, char *query)
+{
+    Student *current = student_head;
+    Index *index_head = NULL;
+    while (current)
+    {
+        int searched = 0;
+        if (search_by == 0)
+        {
+            if (strstr(current->id, query))
+                searched = 1;
+        }
+        else
+        {
+            if (strstr(current->name, query))
+                searched = 1;
+        }
+        if (searched)
+        {
+            Index *new_index = (Index *)malloc(sizeof(Index));
+            new_index->target = current;
+            new_index->next = index_head;
+            index_head = new_index;
+        }
+        current = current->next;
+    }
+    return index_head;
 }
 
 static Student *merge(Student *left, Student *right, int ascending, int (*sort_by)(const Student *, const Student *, int))
@@ -101,4 +131,24 @@ int sort_by_total_score(const Student *a, const Student *b, int ascending)
 {
     int cmp = a->total_score - b->total_score;
     return ascending ? cmp : -cmp;
+}
+
+void student_statistics(Student *head)
+{
+    int count = 0;
+    int total_score_sum = 0;
+    Student *current = head;
+    while (current)
+    {
+        count++;
+        total_score_sum += current->total_score;
+        current = current->next;
+    }
+    if (count == 0)
+    {
+        printf("没有学生数据。\n");
+        return;
+    }
+    printf("学生总数:   \t%d\n", count);
+    printf("平均总成绩: \t%.2f\n", (double)total_score_sum / count);
 }
