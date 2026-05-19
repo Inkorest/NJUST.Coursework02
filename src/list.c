@@ -46,14 +46,14 @@ Student *list(const char *overview[], Student *head)
     while (1)
     {
         gotoxy(0, overview_count + current_selected + 2);
-        printf("->");
+        printf("-> ");
         do
             key = _getch();
         while (key != 224 && key != ENTER && key != ESC);
         if (key == 224)
         {
             key = _getch();
-            printf("\b\b  ");
+            printf("\b\b\b  ");
             if (key == UP)
                 current_selected = current_selected ? (current_selected - 1) : (student_count - 1);
             if (key == DOWN)

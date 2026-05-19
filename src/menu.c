@@ -12,7 +12,6 @@
 int menu(const char *overview[], const char *choices[], const char *information[])
 {
     int current_choice = 0;
-    int key;
     int choice_count = 0;
     while (choices[choice_count])
         choice_count++;
@@ -31,6 +30,7 @@ int menu(const char *overview[], const char *choices[], const char *information[
 
     while (1)
     {
+        int key;
         gotoxy(0, overview_count + current_choice + 1);
         printf("->");
         gotoxy(0, overview_count + choice_count + 3);
