@@ -4,7 +4,7 @@
 
 int main()
 {
-    ui();
+    ui(student_head);
     system("cls");
     printf("已登出。\n");
     return 0;

@@ -27,3 +27,14 @@ int is_digit_str(char *str)
     while (*++str);
     return 1;
 }
+
+int check_unique_id(const char *id, Student *head)
+{
+    while (head)
+    {
+        if (strcmp(head->id, id) == 0)
+            return 0;
+        head = head->next;
+    }
+    return 1;
+}

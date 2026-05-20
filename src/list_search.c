@@ -11,7 +11,7 @@
 
 static void free_index_list(Index *head);
 
-Student *search_list(int search_by)
+Student *list_search(int search_by)
 {
     system("cls");
     if (!student_head)

@@ -3,9 +3,9 @@
 #include <conio.h>
 #include <windows.h>
 #include "menu.h"
+#include "menu_edit.h"
 #include "list.h"
-#include "search_list.h"
-#include "student.h"
+#include "list_search.h"
 
 typedef int (*MenuFunc)();
 
@@ -16,7 +16,7 @@ static int menu_sort(int sort_by);
 static int list_sorted();
 static int menu_statistics();
 
-void ui()
+void ui(Student *head)
 {
     int current_page = 0;
 
@@ -79,9 +79,9 @@ static int menu_search() // Menu 1
         int choice = menu(overview, choices, information);
         if (choice == -1)
             return 0;
-        Student *target = search_list(choice);
+        Student *target = list_search(choice);
         if (target)
-            ;
+            menu_edit(student_head, target);
         return 0;
     }
 }
@@ -164,7 +164,7 @@ static int list_sorted() // Menu 4
     const char *overview[] = {"输出学生信息", "正在按指定的排序方式输出学生信息列表。", NULL};
     Student *target = list(overview, student_head);
     if (target)
-        ;
+        menu_edit(student_head, target);
     return 0;
 }
 

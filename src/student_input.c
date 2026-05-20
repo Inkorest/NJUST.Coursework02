@@ -10,7 +10,6 @@ static char student_name[20];
 static char student_major[20];
 static char student_score[5][5];
 
-static int check_unique_id(const char *id, Student *head);
 static void student_input_display();
 
 void input_data(Student *new_student, Student *head)
@@ -79,17 +78,6 @@ void input_data(Student *new_student, Student *head)
     gotoxy(0, 11);
     printf("录入完毕。");
     Sleep(1000);
-}
-
-static int check_unique_id(const char *id, Student *head)
-{
-    while (head)
-    {
-        if (strcmp(head->id, id) == 0)
-            return 0;
-        head = head->next;
-    }
-    return 1;
 }
 
 static void student_input_display()
