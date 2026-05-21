@@ -8,36 +8,62 @@
 #define DOWN 80
 #define ENTER 13
 #define ESC 27
+#define Q 113
+#define q 81
 
 static void edit_data(Student *head, Student *target, int current_choice);
 
-void menu_edit(Student *head, Student *target)
+int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
 {
-    int current_choice = 0;
+    Student cache = *target;
+    int added = 0;
 
     system("cls");
-    printf("修改学生信息\n");
-    printf("正在修改此学生的学生信息。\n\n");
-    printf("    %-16s%s\n", "学号", target->id);
-    printf("    %-16s%s\n", "姓名", target->name);
-    printf("    %-16s%s\n", "专业", target->major);
-    printf("    %-16s%d\n", "成绩1", target->score[0]);
-    printf("    %-16s%d\n", "成绩2", target->score[1]);
-    printf("    %-16s%d\n", "成绩3", target->score[2]);
-    printf("    %-16s%d\n", "成绩4", target->score[3]);
-    printf("    %-16s%d\n", "成绩5", target->score[4]);
+    if (mode)
+    {
+        printf("录入学生信息\n正在录入新的学生信息。\n\n");
+        printf("    %-16s\n", "学号");
+        printf("    %-16s\n", "姓名");
+        printf("    %-16s\n", "专业");
+        printf("    %-16s\n", "成绩1");
+        printf("    %-16s\n", "成绩2");
+        printf("    %-16s\n", "成绩3");
+        printf("    %-16s\n", "成绩4");
+        printf("    %-16s\n", "成绩5");
+    }
+    else
+    {
+        printf("修改学生信息\n正在修改此学生的学生信息。\n\n");
+        printf("    %-16s%s\n", "学号", cache.id);
+        printf("    %-16s%s\n", "姓名", cache.name);
+        printf("    %-16s%s\n", "专业", cache.major);
+        printf("    %-16s%d\n", "成绩1", cache.score[0]);
+        printf("    %-16s%d\n", "成绩2", cache.score[1]);
+        printf("    %-16s%d\n", "成绩3", cache.score[2]);
+        printf("    %-16s%d\n", "成绩4", cache.score[3]);
+        printf("    %-16s%d\n", "成绩5", cache.score[4]);
+    }
     printf("\n");
-    printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 退出修改\n");
+    if (mode)
+        printf("[ ↑/↓ ] 选择  [ Enter ] 键入  [ Q ] 放弃录入");
+    else
+        printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 保存修改并退出  [ Q ] 放弃修改");
 
+    int current_choice = 0;
     while (1)
     {
-        gotoxy(0, 12);
         int key;
         gotoxy(0, current_choice + 3);
         printf("-> ");
         do
+        {
             key = _getch();
-        while (key != 224 && key != ENTER && key != ESC);
+            if (added == 255 && key == ESC)
+            {
+                *target = cache;
+                return 1;
+            }
+        } while (key != 224 && key != ENTER && key != Q && key != q);
         if (key == 224)
         {
             key = _getch();
@@ -47,17 +73,39 @@ void menu_edit(Student *head, Student *target)
                 current_choice = current_choice ? (current_choice - 1) : 7;
             if (key == DOWN)
                 current_choice = current_choice != 7 ? (current_choice + 1) : 0;
+            if (added & 1 << current_choice)
+            {
+                gotoxy(0, 12);
+                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Q ] 放弃录入");
+            }
         }
         else if (key == ENTER)
         {
             gotoxy(0, 12);
             printf("\33[K[ Enter ] 确定\n");
-            edit_data(head, target, current_choice);
+            edit_data(head, &cache, current_choice);
             gotoxy(0, 12);
-            printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 退出修改\n");
+            if (mode)
+            {
+                added |= 1 << current_choice;
+                if (added == 255)
+                    printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 完成录入  [ Q ] 放弃录入");
+                else
+                    printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Q ] 放弃录入");
+                if (current_choice != 7)
+                {
+                    gotoxy(0, current_choice + 3);
+                    printf("   ");
+                    current_choice++;
+                }
+            }
+            else
+                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 保存修改并退出  [ Q ] 放弃修改");
         }
-        else if (key == ESC)
-            return;
+        else
+        {
+            return 0;
+        }
     }
 }
 

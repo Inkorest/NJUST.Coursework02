@@ -4,7 +4,7 @@
 #include <string.h>
 #include <windows.h>
 #include "utils.h"
-#include "student_input.h"
+#include "menu_edit.h"
 
 Student *student_head = NULL;
 
@@ -12,13 +12,17 @@ static Student *merge(Student *left, Student *right, int ascending, int (*sort_b
 
 void add_student(Student **head)
 {
-    Student *new_student = (Student *)malloc(sizeof(Student));
+    Student *new_student = (Student *)malloc(sizeof(*new_student));
     if (!new_student)
     {
         printf("内存分配失败。\n");
         return;
     }
-    input_data(new_student, *head);
+    if (!menu_edit(*head, new_student, 1))
+    {
+        free(new_student);
+        return;
+    }
     new_student->total_score = 0;
     for (int i = 0; i < 5; i++)
         new_student->total_score += new_student->score[i];
@@ -63,7 +67,7 @@ Index *search_student(int search_by, char *query)
         }
         if (searched)
         {
-            Index *new_index = (Index *)malloc(sizeof(Index));
+            Index *new_index = (Index *)malloc(sizeof(*new_index));
             new_index->target = current;
             new_index->next = index_head;
             index_head = new_index;
