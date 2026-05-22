@@ -58,8 +58,9 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
         do
         {
             key = _getch();
-            if (added == 255 && key == ESC)
+            if ((!mode || added == 255) && key == ESC)
             {
+                cache.total_score = cache.score[0] + cache.score[1] + cache.score[2] + cache.score[3] + cache.score[4];
                 *target = cache;
                 return 1;
             }
@@ -103,9 +104,7 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
                 printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 保存修改并退出  [ Q ] 放弃修改");
         }
         else
-        {
             return 0;
-        }
     }
 }
 
