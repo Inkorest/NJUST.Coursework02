@@ -161,8 +161,7 @@ static int menu_sort(int sort_by)
 
 static int list_sorted() // Menu 4
 {
-    const char *overview[] = {"输出学生信息", "正在按指定的排序方式输出学生信息列表。", NULL};
-    Student *target = list(overview, student_head);
+    Student *target = list(student_head);
     if (target)
         menu_edit(student_head, target, 0);
     return 0;

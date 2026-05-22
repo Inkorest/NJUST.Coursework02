@@ -9,9 +9,11 @@
 #define ENTER 13
 #define ESC 27
 
-Student *list(const char *overview[], Student *head)
+Student *list(Student *head)
 {
     system("cls");
+    printf("输出学生信息\n");
+
     if (!head)
     {
         printf("一个学生都没有嘛！\n");
@@ -21,15 +23,9 @@ Student *list(const char *overview[], Student *head)
     }
 
     int current_selected = 0;
-    int key;
-    int overview_count = 0;
-    while (overview[overview_count])
-        overview_count++;
     int student_count = 0;
 
-    for (int i = 0; i < overview_count; i++)
-        printf("%s\n", overview[i]);
-    printf("\n");
+    printf("正在按指定的排序方式输出学生信息列表。\n");
 
     Student *current = head;
     printf("    %-12s%-12s%-14s%-12s%-12s%-12s%-12s%-12s%-13s\n", "学号", "姓名", "专业", "成绩1", "成绩2", "成绩3", "成绩4", "成绩5", "总成绩");
@@ -40,12 +36,13 @@ Student *list(const char *overview[], Student *head)
         student_count++;
         current = current->next;
     }
-    printf("\n信息\n  选择记录以进行详细操作。\n\n");
+    printf("\n信息\n  选择记录以查看详情。\n\n");
     printf("[ ↑/↓ ] 选择  [ Enter ] 确定  [ Esc ] 返回\n");
 
     while (1)
     {
-        gotoxy(0, overview_count + current_selected + 2);
+        int key;
+        gotoxy(0, current_selected + 4);
         printf("-> ");
         do
             key = _getch();

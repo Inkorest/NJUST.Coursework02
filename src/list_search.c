@@ -16,6 +16,7 @@ Student *list_search(int search_by)
     system("cls");
     if (!student_head)
     {
+        printf("查找学生信息\n");
         printf("一个学生都没有嘛！\n");
         printf("按任意键返回…\n");
         _getch();
@@ -61,6 +62,7 @@ Student *list_search(int search_by)
     Index *index_head = search_student(search_by, query);
 
     system("cls");
+    printf("查找学生信息\n");
 
     if (index_head == NULL)
     {
@@ -71,7 +73,6 @@ Student *list_search(int search_by)
     }
 
     int current_selected = 0;
-    int overview_count = 3;
     int student_count = 0;
     Index *current = index_head;
     while (current)
@@ -80,7 +81,6 @@ Student *list_search(int search_by)
         current = current->next;
     }
 
-    printf("查找学生信息\n");
     printf("正在输出查找结果。\n");
     printf("找到关于\"%s\"的 %d 条结果。\n\n", query, student_count);
 
@@ -92,13 +92,13 @@ Student *list_search(int search_by)
                current->target->score[1], current->target->score[2], current->target->score[3], current->target->score[4], current->target->total_score);
         current = current->next;
     }
-    printf("\n信息\n  选择记录以进行详细操作。\n\n");
+    printf("\n信息\n  选择记录以查看详情。\n\n");
     printf("[ ↑/↓ ] 选择  [ Enter ] 确定  [ Esc ] 返回\n");
 
-    int key;
     while (1)
     {
-        gotoxy(0, overview_count + current_selected + 2);
+        int key;
+        gotoxy(0, current_selected + 5);
         printf("-> ");
         do
             key = _getch();
