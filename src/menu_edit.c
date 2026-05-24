@@ -8,8 +8,8 @@
 #define DOWN 80
 #define ENTER 13
 #define ESC 27
-#define Q 113
-#define q 81
+#define S 83
+#define s 115
 
 static void edit_data(Student *head, Student *target, int current_choice);
 
@@ -45,9 +45,9 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
     }
     printf("\n");
     if (mode)
-        printf("[ ↑/↓ ] 选择  [ Enter ] 键入  [ Q ] 放弃录入");
+        printf("[ ↑/↓ ] 选择  [ Enter ] 键入  [ Esc ] 放弃录入");
     else
-        printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 保存修改并退出  [ Q ] 放弃修改");
+        printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ S ] 保存修改并退出  [ Esc ] 放弃修改");
 
     int current_choice = 0;
     while (1)
@@ -58,13 +58,13 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
         do
         {
             key = _getch();
-            if ((!mode || added == 255) && key == ESC)
+            if ((!mode || added == 255) && (key == S || key == s))
             {
                 cache.total_score = cache.score[0] + cache.score[1] + cache.score[2] + cache.score[3] + cache.score[4];
                 *target = cache;
                 return 1;
             }
-        } while (key != 224 && key != ENTER && key != Q && key != q);
+        } while (key != 224 && key != ENTER && key != ESC);
         if (key == 224)
         {
             key = _getch();
@@ -77,7 +77,7 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
             if (added & 1 << current_choice)
             {
                 gotoxy(0, 12);
-                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Q ] 放弃录入");
+                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 放弃录入");
             }
         }
         else if (key == ENTER)
@@ -90,9 +90,9 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
             {
                 added |= 1 << current_choice;
                 if (added == 255)
-                    printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 完成录入  [ Q ] 放弃录入");
+                    printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ S ] 完成录入  [ Esc ] 放弃录入");
                 else
-                    printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Q ] 放弃录入");
+                    printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 放弃录入");
                 if (current_choice != 7)
                 {
                     gotoxy(0, current_choice + 3);
@@ -101,7 +101,7 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
                 }
             }
             else
-                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 保存修改并退出  [ Q ] 放弃修改");
+                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ S ] 保存修改并退出  [ Esc ] 放弃修改");
         }
         else
             return 0;
