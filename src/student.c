@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "menu_edit.h"
 
-Student *student_head = NULL;
+Student *g_student_head = NULL;
 
 static Student *merge(Student *left, Student *right, int ascending, int (*sort_by)(const Student *, const Student *, int));
 
@@ -50,7 +50,7 @@ void delete_student(Student **head, Student *target)
 
 Index *search_student(int search_by, char *query)
 {
-    Student *current = student_head;
+    Student *current = g_student_head;
     Index *index_head = NULL;
     while (current)
     {

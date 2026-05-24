@@ -17,7 +17,7 @@ typedef struct Index
     struct Index *next;
 } Index;
 
-Student *student_head;
+Student *g_student_head;
 
 void add_student(Student **head);
 void delete_student(Student **head, Student *target);

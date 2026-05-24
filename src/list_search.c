@@ -13,16 +13,6 @@ static void free_index_list(Index *head);
 
 Student *list_search(int search_by)
 {
-    system("cls");
-    if (!student_head)
-    {
-        printf("查找学生信息\n");
-        printf("一个学生都没有嘛！\n");
-        printf("按任意键返回…\n");
-        _getch();
-        return NULL;
-    }
-
     char query[20];
     if (search_by == 0)
     {

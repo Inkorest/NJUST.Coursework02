@@ -16,7 +16,7 @@ Student *list(Student *head)
 
     if (!head)
     {
-        printf("一个学生都没有嘛！\n");
+        printf("\n一个学生都没有嘛！\n");
         printf("按任意键返回…\n");
         _getch();
         return NULL;
