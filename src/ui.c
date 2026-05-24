@@ -265,19 +265,16 @@ static MenuId_t details_student() // Menu 8
 
     int key;
     do
+    {
         key = _getch();
-    while (key != ENTER && key != 224 && key != ESC);
+        if (key == 224 && _getch() == DEL)
+            return CONFIRM_DELETE;
+    } while (key != ENTER && key != ESC);
     if (key == ENTER)
     {
         s_menu_edit_mode = 0;
         menu_edit(g_student_head, s_target, s_menu_edit_mode);
         return DETAILS_STUDENT;
-    }
-    else if (key == 224)
-    {
-        key = _getch();
-        if (key == DEL)
-            return CONFIRM_DELETE;
     }
     else
         return s_source_menu;
