@@ -48,35 +48,6 @@ void delete_student(Student **head, Student *target)
     }
 }
 
-Index *search_student(int search_by, char *query)
-{
-    Student *current = g_student_head;
-    Index *index_head = NULL;
-    while (current)
-    {
-        int searched = 0;
-        if (search_by == 0)
-        {
-            if (strstr(current->id, query))
-                searched = 1;
-        }
-        else
-        {
-            if (strstr(current->name, query))
-                searched = 1;
-        }
-        if (searched)
-        {
-            Index *new_index = (Index *)malloc(sizeof(*new_index));
-            new_index->target = current;
-            new_index->next = index_head;
-            index_head = new_index;
-        }
-        current = current->next;
-    }
-    return index_head;
-}
-
 static Student *merge(Student *left, Student *right, int ascending, int (*sort_by)(const Student *, const Student *, int))
 {
     if (!left)

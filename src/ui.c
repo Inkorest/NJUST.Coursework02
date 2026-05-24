@@ -31,7 +31,7 @@ typedef MenuId_t (*MenuFunc_t)();
 static Student *s_target = NULL;
 static int s_menu_sort_sort_by = 0;
 static int s_menu_edit_mode = 0;
-static int s_list_searched_search_by = 0;
+Index *s_index_head = NULL;
 static MenuId_t s_source_menu = 0;
 
 static MenuId_t menu_main();       // Menu 0
@@ -106,7 +106,7 @@ static MenuId_t menu_search() // Menu 1
         printf("一个学生都没有嘛！\n");
         printf("按任意键返回…\n");
         _getch();
-        return NULL;
+        return 0;
     }
     const char *overview[] = {
         "主菜单 -> 查找学生信息",
@@ -121,15 +121,16 @@ static MenuId_t menu_search() // Menu 1
         "通过学号查找学生信息。",
         "通过姓名查找学生信息。",
         NULL};
-    s_list_searched_search_by = menu(overview, choices, information);
-    if (s_list_searched_search_by == -1)
+    int search_by = menu(overview, choices, information);
+    if (search_by == -1)
         return MENU_MAIN;
+    s_index_head = menu_query(search_by);
     return LIST_SEARCHED;
 }
 
 static MenuId_t list_searched() // Menu 7
 {
-    s_target = list_search(s_list_searched_search_by);
+    s_target = list_search(s_index_head);
     if (s_target)
     {
         s_source_menu = LIST_SEARCHED;
@@ -141,6 +142,15 @@ static MenuId_t list_searched() // Menu 7
 
 static MenuId_t menu_display() // Menu 2
 {
+    if (!g_student_head)
+    {
+        system("cls");
+        printf("输出学生信息\n\n");
+        printf("一个学生都没有嘛！\n");
+        printf("按任意键返回…\n");
+        _getch();
+        return 0;
+    }
     const char *overview[] = {
         "主菜单 -> 输出学生信息",
         "按指定的排序方式输出学生信息。",
@@ -191,7 +201,7 @@ static MenuId_t menu_sort() // Menu 5
     {
         int choice = menu(overview, choices, information);
         if (choice == -1)
-            return MENU_MAIN;
+            return MENU_DISPLAY;
         switch (s_menu_sort_sort_by)
         {
         case 0:
@@ -213,10 +223,9 @@ static MenuId_t menu_sort() // Menu 5
 
 static MenuId_t list_sorted() // Menu 6
 {
-    Student *sorted_target = list(g_student_head);
-    if (sorted_target)
+    s_target = list(g_student_head);
+    if (s_target)
     {
-        s_target = sorted_target;
         s_source_menu = LIST_SORTED;
         return DETAILS_STUDENT;
     }
@@ -287,16 +296,33 @@ static MenuId_t confirm_delete() // Menu 9
         key = _getch();
     while (key != ENTER && key != ESC);
     if (key == ENTER)
-    {
-        delete_student(&g_student_head, s_target);
         return SUCCEED_DELETE;
-    }
     else
-        return s_source_menu;
+        return DETAILS_STUDENT;
 }
 
 static MenuId_t succeed_delete() // Menu 10
 {
+    delete_student(&g_student_head, s_target);
+    if (s_source_menu == LIST_SEARCHED)
+    {
+        Index *current = s_index_head;
+        Index *prev = NULL;
+        while (current)
+        {
+            if (current->target == s_target)
+            {
+                if (prev)
+                    prev->next = current->next;
+                else
+                    s_index_head = current->next;
+                free(current);
+                break;
+            }
+            prev = current;
+            current = current->next;
+        }
+    }
     system("cls");
     printf("信息\n\n");
     printf("删除学生信息\n\n");

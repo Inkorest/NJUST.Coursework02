@@ -9,11 +9,14 @@
 #define ENTER 13
 #define ESC 27
 
+static char query[20];
+
+static Index *search_student(int search_by);
 static void free_index_list(Index *head);
 
-Student *list_search(int search_by)
+Index *menu_query(int search_by)
 {
-    char query[20];
+    system("cls");
     if (search_by == 0)
     {
         printf("主菜单 -> 查找学生信息 -> 通过学号查找\n");
@@ -48,15 +51,17 @@ Student *list_search(int search_by)
             printf("\33[K");
         }
     }
+    return search_student(search_by);
+}
 
-    Index *index_head = search_student(search_by, query);
-
+Student *list_search(Index *index_head)
+{
     system("cls");
     printf("查找学生信息\n");
 
     if (index_head == NULL)
     {
-        printf("未能找到关于\"%s\"的结果。\n", query);
+        printf("\n未能找到关于\"%s\"的结果。\n", query);
         printf("按任意键返回…\n");
         _getch();
         return NULL;
@@ -108,7 +113,6 @@ Student *list_search(int search_by)
             for (int i = 0; i < current_selected; i++)
                 index_target = index_target->next;
             Student *result = index_target->target;
-            free_index_list(index_head);
             return result;
         }
         else
@@ -117,6 +121,35 @@ Student *list_search(int search_by)
             return NULL;
         }
     }
+}
+
+static Index *search_student(int search_by)
+{
+    Student *current = g_student_head;
+    Index *index_head = NULL;
+    while (current)
+    {
+        int searched = 0;
+        if (search_by == 0)
+        {
+            if (strstr(current->id, query))
+                searched = 1;
+        }
+        else
+        {
+            if (strstr(current->name, query))
+                searched = 1;
+        }
+        if (searched)
+        {
+            Index *new_index = (Index *)malloc(sizeof(*new_index));
+            new_index->target = current;
+            new_index->next = index_head;
+            index_head = new_index;
+        }
+        current = current->next;
+    }
+    return index_head;
 }
 
 static void free_index_list(Index *head)
