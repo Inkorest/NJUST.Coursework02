@@ -7,6 +7,10 @@
 #include "list.h"
 #include "list_search.h"
 
+#define ENTER 13
+#define DEL 83
+#define ESC 27
+
 typedef int (*MenuFunc)();
 
 static int menu_main();
@@ -15,6 +19,9 @@ static int menu_display();
 static int menu_sort(int sort_by);
 static int list_sorted();
 static int menu_statistics();
+static inline int confirm_delete();
+static void details_student(Student *head, Student *target);
+static inline void succeed_delete();
 
 void ui(Student *head)
 {
@@ -74,15 +81,16 @@ static int menu_search() // Menu 1
         "通过学号查找学生信息。",
         "通过姓名查找学生信息。",
         NULL};
+    int choice = menu(overview, choices, information);
+    if (choice == -1)
+        return 0;
     while (1)
     {
-        int choice = menu(overview, choices, information);
-        if (choice == -1)
-            return 0;
         Student *target = list_search(choice);
         if (target)
-            menu_edit(student_head, target, 0);
-        return 0;
+            details_student(student_head, target);
+        else
+            return 0;
     }
 }
 
@@ -161,10 +169,14 @@ static int menu_sort(int sort_by)
 
 static int list_sorted() // Menu 4
 {
-    Student *target = list(student_head);
-    if (target)
-        menu_edit(student_head, target, 0);
-    return 0;
+    while (1)
+    {
+        Student *target = list(student_head);
+        if (target)
+            details_student(student_head, target);
+        else
+            return 0;
+    }
 }
 
 static int menu_statistics() // Menu 3
@@ -176,6 +188,72 @@ static int menu_statistics() // Menu 3
     int key;
     do
         key = _getch();
-    while (key != 27);
+    while (key != ESC);
     return 0;
+}
+
+static void details_student(Student *head, Student *target)
+{
+    while (1)
+    {
+        system("cls");
+        printf("查看学生信息\n正在查看此学生的详细信息。\n\n");
+        printf("%-16s%s\n", "学号", target->id);
+        printf("%-16s%s\n", "姓名", target->name);
+        printf("%-16s%s\n", "专业", target->major);
+        printf("%-16s%d\n", "成绩1", target->score[0]);
+        printf("%-16s%d\n", "成绩2", target->score[1]);
+        printf("%-16s%d\n", "成绩3", target->score[2]);
+        printf("%-16s%d\n", "成绩4", target->score[3]);
+        printf("%-16s%d\n", "成绩5", target->score[4]);
+        printf("%-18s%.2f\n", "平均成绩", (double)target->total_score / 5);
+        printf("%-17s%d\n", "总成绩", target->total_score);
+        printf("\n");
+        printf("[ Enter ] 修改  [ Delete ] 删除  [ Esc ] 返回\n");
+        int key;
+        do
+            key = _getch();
+        while (key != ENTER && key != 224 && key != ESC);
+        if (key == ENTER)
+            menu_edit(head, target, 0);
+        else if (key == 224)
+        {
+            key = _getch();
+            if (key == DEL && confirm_delete())
+            {
+                //delete_student(&head, target);  没做完
+                succeed_delete();
+                return;
+            }
+        }
+        else
+            return;
+    }
+}
+
+static inline int confirm_delete()
+{
+    system("cls");
+    printf("信息\n\n");
+    printf("删除学生信息\n\n");
+    printf("即将删除此学生的学生信息，可以吗？\n");
+    printf("此操作不能撤销。\n\n");
+    printf("[ Enter ] 确定  [ Esc ] 取消\n");
+    int key;
+    do
+        key = _getch();
+    while (key != ENTER && key != ESC);
+    if (key == ENTER)
+        return 1;
+    else
+        return 0;
+}
+
+static inline void succeed_delete()
+{
+    system("cls");
+    printf("信息\n\n");
+    printf("删除学生信息\n\n");
+    printf("成功删除了此学生的学生信息。\n");
+    Sleep(1000);
 }

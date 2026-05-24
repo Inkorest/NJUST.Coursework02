@@ -25,7 +25,7 @@ Student *list(Student *head)
     int current_selected = 0;
     int student_count = 0;
 
-    printf("正在按指定的排序方式输出学生信息列表。\n");
+    printf("正在按指定的排序方式输出学生信息列表。\n\n");
 
     Student *current = head;
     printf("    %-12s%-12s%-14s%-12s%-12s%-12s%-12s%-12s%-13s\n", "学号", "姓名", "专业", "成绩1", "成绩2", "成绩3", "成绩4", "成绩5", "总成绩");
