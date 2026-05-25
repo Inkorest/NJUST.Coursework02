@@ -91,7 +91,7 @@ static void edit_data(User *head, User *target, int current_choice)
         char new_username[20];
         while (1)
         {
-            scanf("%s", new_username);
+            safe_input(new_username, sizeof(new_username));
             gotoxy(18, 3);
             if (strlen(new_username) >= 6 && strlen(new_username) <= 16 && is_digit_or_letter_str(new_username))
             {

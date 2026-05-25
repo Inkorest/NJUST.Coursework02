@@ -6,6 +6,7 @@
 #include "menu_edit.h"
 #include "list.h"
 #include "list_search.h"
+#include "db_storage.h"
 
 #define ENTER 13
 #define DEL 83
@@ -46,8 +47,9 @@ static MenuId_t details_student(); // Menu 8
 static MenuId_t confirm_delete();  // Menu 9
 static MenuId_t succeed_delete();  // Menu 10
 
-void ui(Student *head)
+int ui()
 {
+    load_student_data(g_logged_username, &g_student_head);
     int current_page = 0;
     const MenuFunc_t menu_table[] = {menu_main,
                                      menu_search,
@@ -62,6 +64,8 @@ void ui(Student *head)
                                      succeed_delete};
     while (current_page != -1)
         current_page = menu_table[current_page]();
+    save_student_data(g_logged_username, g_student_head);
+    return 0;
 }
 
 static MenuId_t menu_main() // Menu 0

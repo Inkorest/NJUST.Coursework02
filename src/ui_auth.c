@@ -4,22 +4,36 @@
 #include "menu.h"
 #include "login.h"
 #include "register.h"
-#include "storage.h"
-#include "ui.h"
+#include "db_storage.h"
 
-static void menu_main();
+static int menu_main();
 static void menu_login();
 static void menu_register();
 static void free_user_list(User *head);
 
-void ui_auth()
+int ui_auth()
 {
     load_user_data();
-    menu_main();
+    do
+        switch (menu_main())
+        {
+        case 0:
+            menu_login();
+            break;
+        case 1:
+            menu_register();
+            break;
+        case 2:
+        case -1:
+            free_user_list(g_user_head);
+            return -1;
+        }
+    while (!*g_logged_username);
     free_user_list(g_user_head);
+    return 1;
 }
 
-static void menu_main()
+static int menu_main()
 {
     const char *overview[] = {
         "学生信息管理系统",
@@ -35,30 +49,12 @@ static void menu_main()
         "注册新的用户。",
         "退出系统并结束。",
         NULL};
-
-    while (1)
-    {
-        int choice = menu(overview, choices, information);
-        switch (choice)
-        {
-        case 0:
-            menu_login();
-            ui(g_student_head);
-            break;
-        case 1:
-            menu_register();
-            break;
-        case 2:
-        case -1:
-            return;
-        }
-    }
+    return menu(overview, choices, information);
 }
 
 static void menu_login()
 {
-    char logged_username[20] = {0};
-    user_login(g_user_head, logged_username);
+    user_login(g_user_head, g_logged_username);
 }
 
 static void menu_register()

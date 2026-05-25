@@ -2,6 +2,6 @@
 #define UI_H
 #include "student.h"
 
-void ui(Student *head);
+int ui();
 
 #endif
