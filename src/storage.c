@@ -1,7 +1,7 @@
 #include "storage.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "auth.h"
+#include "register.h"
 #include "student.h"
 
 static const char users_file[] = "data/users.txt";

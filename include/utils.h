@@ -1,6 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
-#include "auth.h"
+#include "user.h"
 #include "student.h"
 
 void safe_input(char *buffer, int length);

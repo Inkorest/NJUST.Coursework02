@@ -1,5 +1,5 @@
-#ifndef AUTH_H
-#define AUTH_H
+#ifndef REGISTER_H
+#define REGISTER_H
 
 typedef struct User
 {

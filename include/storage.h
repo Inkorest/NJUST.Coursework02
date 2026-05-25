@@ -1,6 +1,6 @@
 #ifndef STORAGE_H
 #define STORAGE_H
-#include "auth.h"
+#include "user.h"
 
 void load_user_data();
 void save_user_data(User *target);

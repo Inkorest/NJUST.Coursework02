@@ -1,4 +1,4 @@
-#include "auth.h"
+#include "register.h"
 #include <stdio.h>
 #include <conio.h>
 #include <windows.h>
