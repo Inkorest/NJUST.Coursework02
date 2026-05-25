@@ -28,10 +28,10 @@ Student *list(Student *head)
     printf("正在按指定的排序方式输出学生信息列表。\n\n");
 
     Student *current = head;
-    printf("    %-12s%-12s%-14s%-12s%-12s%-12s%-12s%-12s%-13s\n", "学号", "姓名", "专业", "成绩1", "成绩2", "成绩3", "成绩4", "成绩5", "总成绩");
+    printf("    %-18s%-22s%-22s%-12s%-12s%-12s%-12s%-12s%-13s\n", "学号", "姓名", "专业", "成绩1", "成绩2", "成绩3", "成绩4", "成绩5", "总成绩");
     while (current)
     {
-        printf("    %-10s%-10s%-12s%-10d%-10d%-10d%-10d%-10d%-10d\n", current->id, current->name, current->major, current->score[0],
+        printf("    %-16s%-20s%-20s%-10d%-10d%-10d%-10d%-10d%-10d\n", current->id, current->name, current->major, current->score[0],
                current->score[1], current->score[2], current->score[3], current->score[4], current->total_score);
         student_count++;
         current = current->next;

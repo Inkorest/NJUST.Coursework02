@@ -12,6 +12,7 @@
 #define s 115
 
 static void edit_data(Student *head, Student *target, int current_choice);
+static void display_info(const int current_choice);
 
 int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
 {
@@ -60,7 +61,8 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
         }
         else
             printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ S ] 保存修改并退出  [ Esc ] 放弃修改");
-            
+        printf("\n\33[K\n\n\33[K");
+
         int key;
         gotoxy(0, current_choice + 3);
         printf("-> ");
@@ -86,7 +88,7 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
         }
         else if (key == ENTER)
         {
-            gotoxy(0, 12);
+            gotoxy(0, 15);
             printf("\33[K[ Enter ] 确定\n");
             edit_data(head, &cache, current_choice);
             if (mode)
@@ -107,14 +109,17 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
 
 static void edit_data(Student *head, Student *target, int current_choice)
 {
+    display_info(current_choice);
     gotoxy(18, current_choice + 3);
     printf("\33[K");
-    if (current_choice == 0)
+    switch (current_choice)
     {
-        char new_id[20];
+    case 0:
+    {
+        char new_id[40];
         while (1)
         {
-            scanf("%s", new_id);
+            safe_input(new_id, sizeof(new_id));
             gotoxy(18, 3);
             if (strlen(new_id) <= 16 && is_digit_str(new_id))
             {
@@ -123,43 +128,87 @@ static void edit_data(Student *head, Student *target, int current_choice)
                 printf("\33[K学号已存在，请重新输入。");
             }
             else
-                printf("\33[K请输入16位以内的数字学号。");
+                printf("\33[K请输入 16 位以内的数字学号。");
             Sleep(1000);
             gotoxy(18, 3);
             printf("\33[K");
         }
         strcpy(target->id, new_id);
+        break;
     }
-    else if (current_choice == 1)
+    case 1:
     {
-        char new_name[20];
-        scanf("%s", new_name);
+        char new_name[40];
+        while (1)
+        {
+            safe_input(new_name, sizeof(new_name));
+            if (strlen(new_name) < 20 && is_digit_or_letter_or_blank_str(new_name))
+                break;
+            gotoxy(18, 4);
+            printf("\33[K请输入 20 位以内的合法姓名。");
+            Sleep(1000);
+            gotoxy(18, 4);
+            printf("\33[K");
+        }
         strcpy(target->name, new_name);
+        break;
     }
-    else if (current_choice == 2)
+    case 2:
     {
-        char new_major[20];
-        scanf("%s", new_major);
+        char new_major[40];
+        while (1)
+        {
+            safe_input(new_major, sizeof(new_major));
+            if (strlen(new_major) < 20 && is_digit_or_letter_or_blank_str(new_major))
+                break;
+            gotoxy(18, 5);
+            printf("\33[K请输入 20 位以内的合法专业。");
+            Sleep(1000);
+            gotoxy(18, 5);
+            printf("\33[K");
+        }
         strcpy(target->major, new_major);
+        break;
     }
-    else
+    default:
     {
-        char new_score_str[5];
+        char new_score_str[20];
         int score_index = current_choice - 3;
         while (1)
         {
-            scanf("%s", new_score_str);
+            safe_input(new_score_str, sizeof(new_score_str));
             if (strlen(new_score_str) <= 3 && is_digit_str(new_score_str))
-            {
-                target->score[score_index] = (int)strtol(new_score_str, NULL, 10);
                 break;
-            }
             gotoxy(18, 3 + current_choice);
-            printf("\33[K请输入3位以内的成绩。");
+            printf("\33[K请输入 3 位以内的合法成绩。");
             Sleep(1000);
             gotoxy(18, 3 + current_choice);
             printf("\33[K");
         }
+        target->score[score_index] = (int)strtol(new_score_str, NULL, 10);
+        break;
+    }
+    }
+}
+
+static void display_info(const int current_choice)
+{
+    gotoxy(0, 12);
+    printf("\33[K信息\n  ");
+    switch (current_choice)
+    {
+    case 0:
+        printf("输入 16 位以内的学号，学号由数字组成。");
+        break;
+    case 1:
+        printf("输入 20 位以内的姓名，姓名由字母、数字或空格组成。");
+        break;
+    case 2:
+        printf("输入 20 位以内的专业，专业由字母、数字或空格组成。");
+        break;
+    default:
+        printf("输入 3 位以内的成绩，成绩由数字组成。");
+        break;
     }
 }
 
@@ -175,6 +224,9 @@ static void edit_data(Student *head, Student *target, int current_choice)
 成绩3
 成绩4
 成绩5
+
+信息
+  <Info Message>
 
 [ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 退出修改
 */

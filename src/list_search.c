@@ -9,7 +9,7 @@
 #define ENTER 13
 #define ESC 27
 
-static char query[20];
+static char query[40];
 
 static Index *search_student(int search_by);
 static void free_index_list(Index *head);
@@ -24,7 +24,7 @@ Index *menu_query(int search_by)
         printf("请输入要查找的学号: ");
         while (1)
         {
-            scanf("%s", query);
+            safe_input(query, sizeof(query));
             if (strlen(query) <= 16 && is_digit_str(query))
                 break;
             gotoxy(20, 3);
@@ -41,7 +41,7 @@ Index *menu_query(int search_by)
         printf("请输入要查找的姓名: ");
         while (1)
         {
-            scanf("%s", query);
+            safe_input(query, sizeof(query));
             if (strlen(query) <= 16 && is_digit_or_letter_str(query))
                 break;
             gotoxy(20, 3);
@@ -80,10 +80,10 @@ Student *list_search(Index *index_head)
     printf("找到关于\"%s\"的 %d 条结果。\n\n", query, student_count);
 
     current = index_head;
-    printf("    %-12s%-12s%-14s%-12s%-12s%-12s%-12s%-12s%-13s\n", "学号", "姓名", "专业", "成绩1", "成绩2", "成绩3", "成绩4", "成绩5", "总成绩");
+    printf("    %-18s%-22s%-22s%-12s%-12s%-12s%-12s%-12s%-13s\n", "学号", "姓名", "专业", "成绩1", "成绩2", "成绩3", "成绩4", "成绩5", "总成绩");
     while (current)
     {
-        printf("    %-10s%-10s%-12s%-10d%-10d%-10d%-10d%-10d%-10d\n", current->target->id, current->target->name, current->target->major, current->target->score[0],
+        printf("    %-16s%-20s%-20s%-10d%-10d%-10d%-10d%-10d%-10d\n", current->target->id, current->target->name, current->target->major, current->target->score[0],
                current->target->score[1], current->target->score[2], current->target->score[3], current->target->score[4], current->target->total_score);
         current = current->next;
     }
