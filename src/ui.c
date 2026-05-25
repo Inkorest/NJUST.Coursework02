@@ -240,7 +240,7 @@ static MenuId_t list_sorted() // Menu 6
 static MenuId_t menu_statistics() // Menu 3
 {
     system("cls");
-    printf("学生成绩统计\n正在统计已录入的学生信息。\n\n");
+    printf("统计学生成绩\n正在统计已录入的学生信息。\n\n");
     student_statistics(g_student_head);
     printf("\n[ Esc ] 退出\n");
     int key;

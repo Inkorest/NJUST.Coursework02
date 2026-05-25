@@ -109,11 +109,16 @@ int sort_by_total_score(const Student *a, const Student *b, int ascending)
 void student_statistics(Student *head)
 {
     int count = 0;
+    int score_sum[5] = {0};
+    double score_avg[5];
     int total_score_sum = 0;
+    double total_score_avg;
     Student *current = head;
     while (current)
     {
         count++;
+        for (int i = 0; i < 5; i++)
+            score_sum[i] += current->score[i];
         total_score_sum += current->total_score;
         current = current->next;
     }
@@ -122,6 +127,14 @@ void student_statistics(Student *head)
         printf("没有学生数据。\n");
         return;
     }
+    for (int i = 0; i < 5; i++)
+        score_avg[i] = score_sum[i] / count;
+    total_score_avg = total_score_sum / count;
     printf("学生总数:   \t%d\n", count);
-    printf("平均总成绩: \t%.2f\n", (double)total_score_sum / count);
+    printf("平均成绩1: \t%.2f\n", score_avg[0]);
+    printf("平均成绩2: \t%.2f\n", score_avg[1]);
+    printf("平均成绩3: \t%.2f\n", score_avg[2]);
+    printf("平均成绩4: \t%.2f\n", score_avg[3]);
+    printf("平均成绩5: \t%.2f\n", score_avg[4]);
+    printf("平均总成绩: \t%.2f\n", total_score_avg);
 }
