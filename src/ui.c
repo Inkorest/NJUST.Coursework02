@@ -65,6 +65,9 @@ int ui()
     while (current_page != -1)
         current_page = menu_table[current_page]();
     save_student_data(g_logged_username, g_student_head);
+    system("cls");
+    printf("已登出。");
+    Sleep(1000);
     return 0;
 }
 

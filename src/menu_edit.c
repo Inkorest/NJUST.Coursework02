@@ -73,6 +73,14 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
             {
                 cache.total_score = cache.score[0] + cache.score[1] + cache.score[2] + cache.score[3] + cache.score[4];
                 *target = cache;
+                gotoxy(0, 12);
+                printf("\33[K完成\n\33[K\n\n\33[K");
+                gotoxy(0, 13);
+                if (mode)
+                    printf("  已录入。");
+                else
+                    printf("  修改成功。");
+                Sleep(1000);
                 return 1;
             }
         } while (key != 224 && key != ENTER && key != ESC);
