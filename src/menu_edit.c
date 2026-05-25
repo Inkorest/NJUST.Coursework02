@@ -44,14 +44,23 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
         printf("    %-16s%d\n", "成绩5", cache.score[4]);
     }
     printf("\n");
-    if (mode)
-        printf("[ ↑/↓ ] 选择  [ Enter ] 键入  [ Esc ] 放弃录入");
-    else
-        printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ S ] 保存修改并退出  [ Esc ] 放弃修改");
 
     int current_choice = 0;
     while (1)
     {
+        gotoxy(0, 12);
+        if (mode)
+        {
+            if (added == 255)
+                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ S ] 完成录入  [ Esc ] 放弃录入");
+            else if (added & 1 << current_choice)
+                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 放弃录入");
+            else
+                printf("[ ↑/↓ ] 选择  [ Enter ] 键入  [ Esc ] 放弃录入");
+        }
+        else
+            printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ S ] 保存修改并退出  [ Esc ] 放弃修改");
+            
         int key;
         gotoxy(0, current_choice + 3);
         printf("-> ");
@@ -74,25 +83,15 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
                 current_choice = current_choice ? (current_choice - 1) : 7;
             if (key == DOWN)
                 current_choice = current_choice != 7 ? (current_choice + 1) : 0;
-            if (added & 1 << current_choice)
-            {
-                gotoxy(0, 12);
-                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 放弃录入");
-            }
         }
         else if (key == ENTER)
         {
             gotoxy(0, 12);
             printf("\33[K[ Enter ] 确定\n");
             edit_data(head, &cache, current_choice);
-            gotoxy(0, 12);
             if (mode)
             {
                 added |= 1 << current_choice;
-                if (added == 255)
-                    printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ S ] 完成录入  [ Esc ] 放弃录入");
-                else
-                    printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 放弃录入");
                 if (current_choice != 7)
                 {
                     gotoxy(0, current_choice + 3);
@@ -100,8 +99,6 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
                     current_choice++;
                 }
             }
-            else
-                printf("[ ↑/↓ ] 选择  [ Enter ] 修改  [ S ] 保存修改并退出  [ Esc ] 放弃修改");
         }
         else
             return 0;
@@ -122,10 +119,7 @@ static void edit_data(Student *head, Student *target, int current_choice)
             if (strlen(new_id) <= 16 && is_digit_str(new_id))
             {
                 if (!strcmp(target->id, new_id) || check_unique_id(new_id, head))
-                {
-                    strcpy(target->id, new_id);
                     break;
-                }
                 printf("\33[K学号已存在，请重新输入。");
             }
             else
