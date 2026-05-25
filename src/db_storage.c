@@ -59,6 +59,7 @@ void load_student_data(const char *username, Student **head)
         return;
     }
     char line[100];
+    *head = NULL;
     while (fgets(line, sizeof(line), fp))
     {
         Student *new_student = (Student *)malloc(sizeof(*new_student));
