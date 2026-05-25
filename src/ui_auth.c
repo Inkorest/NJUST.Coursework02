@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "menu.h"
+#include "login.h"
 #include "register.h"
 #include "storage.h"
 #include "ui.h"
@@ -25,12 +26,12 @@ static void menu_main()
         "请登入系统。",
         NULL};
     const char *choices[] = {
-        "登录",
+        "登入",
         "注册",
         "退出系统",
         NULL};
     const char *information[] = {
-        "以现有的用户登录。",
+        "以现有的用户登入。",
         "注册新的用户。",
         "退出系统并结束。",
         NULL};
@@ -41,8 +42,8 @@ static void menu_main()
         switch (choice)
         {
         case 0:
+            menu_login();
             ui(g_student_head);
-            // menu_login();
             break;
         case 1:
             menu_register();
@@ -56,6 +57,8 @@ static void menu_main()
 
 static void menu_login()
 {
+    char logged_username[20] = {0};
+    user_login(g_user_head, logged_username);
 }
 
 static void menu_register()
