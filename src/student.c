@@ -6,8 +6,6 @@
 #include "utils.h"
 #include "menu_edit.h"
 
-Student *g_student_head = NULL;
-
 static Student *merge(Student *left, Student *right, int ascending, int (*sort_by)(const Student *, const Student *, int));
 
 void add_student(Student **head)
