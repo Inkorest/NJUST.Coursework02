@@ -116,7 +116,7 @@ static void edit_data(Student *head, Student *target, int current_choice)
     {
     case 0:
     {
-        char new_id[40];
+        char new_id[20];
         while (1)
         {
             safe_input(new_id, sizeof(new_id));
@@ -138,7 +138,7 @@ static void edit_data(Student *head, Student *target, int current_choice)
     }
     case 1:
     {
-        char new_name[40];
+        char new_name[24];
         while (1)
         {
             safe_input(new_name, sizeof(new_name));
@@ -155,7 +155,7 @@ static void edit_data(Student *head, Student *target, int current_choice)
     }
     case 2:
     {
-        char new_major[40];
+        char new_major[24];
         while (1)
         {
             safe_input(new_major, sizeof(new_major));
@@ -172,7 +172,7 @@ static void edit_data(Student *head, Student *target, int current_choice)
     }
     default:
     {
-        char new_score_str[20];
+        char new_score_str[5];
         int score_index = current_choice - 3;
         while (1)
         {

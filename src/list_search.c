@@ -9,7 +9,7 @@
 #define ENTER 13
 #define ESC 27
 
-static char query[40];
+static char query[24];
 
 static Index *search_student(int search_by);
 static void free_index_list(Index *head);
@@ -28,7 +28,7 @@ Index *menu_query(int search_by)
             if (strlen(query) <= 16 && is_digit_str(query))
                 break;
             gotoxy(20, 3);
-            printf("请输入16位以内的合法学号。\n");
+            printf("请输入 16 位以内的合法学号。\n");
             Sleep(1000);
             gotoxy(20, 3);
             printf("\33[K");
@@ -45,7 +45,7 @@ Index *menu_query(int search_by)
             if (strlen(query) <= 16 && is_digit_or_letter_str(query))
                 break;
             gotoxy(20, 3);
-            printf("请输入16位以内的合法姓名。\n");
+            printf("请输入 20 位以内的合法姓名。\n");
             Sleep(1000);
             gotoxy(20, 3);
             printf("\33[K");

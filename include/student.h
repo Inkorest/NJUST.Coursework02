@@ -4,8 +4,8 @@
 typedef struct Student
 {
     char id[20];
-    char name[20];
-    char major[20];
+    char name[24];
+    char major[24];
     int score[5];
     int total_score;
     struct Student *next;
