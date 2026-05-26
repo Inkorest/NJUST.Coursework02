@@ -9,7 +9,7 @@
 static int menu_main();
 static void menu_login();
 static void menu_register();
-static void free_user_list(User *head);
+static void free_user_data(User *head);
 
 int ui_auth()
 {
@@ -25,11 +25,11 @@ int ui_auth()
             break;
         case 2:
         case -1:
-            free_user_list(g_user_head);
+            free_user_data(g_user_head);
             return -1;
         }
     while (!*g_logged_username);
-    free_user_list(g_user_head);
+    free_user_data(g_user_head);
     return 1;
 }
 
@@ -71,7 +71,7 @@ static void menu_register()
     g_user_head = new_user;
 }
 
-static void free_user_list(User *head)
+static void free_user_data(User *head)
 {
     while (head)
     {

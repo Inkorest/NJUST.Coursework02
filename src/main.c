@@ -2,7 +2,6 @@
 #include <windows.h>
 #include "ui_auth.h"
 #include "ui.h"
-#include "user.h"
 
 typedef int (*UiFunc_t)();
 
