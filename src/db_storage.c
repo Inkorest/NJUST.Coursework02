@@ -8,6 +8,7 @@
 char g_logged_username[20] = {0};
 static const char users_file[] = "data/users.txt";
 
+// 将 head 指向的链表保存到用户数据文件
 void load_user_data(User **head)
 {
     FILE *fp = fopen(users_file, "r");
@@ -34,6 +35,7 @@ void load_user_data(User **head)
     return;
 }
 
+// 将 target 指向的用户数据从内存追加保存到用户数据文件
 void save_user_data(User *target)
 {
     FILE *fp = fopen(users_file, "a");
@@ -47,6 +49,7 @@ void save_user_data(User *target)
     return;
 }
 
+// 读取 username 对应的保存数据文件，并创建以 head 为头节点的链表
 void load_student_data(const char *username, Student **head)
 {
     char filename[50];
@@ -81,6 +84,7 @@ void load_student_data(const char *username, Student **head)
     fclose(fp);
 }
 
+// 将 head 指向的链表保存到 username 对应的保存数据文件
 void save_student_data(const char *username, Student *head)
 {
     char filename[50];

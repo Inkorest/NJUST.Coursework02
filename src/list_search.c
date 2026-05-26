@@ -11,6 +11,7 @@
 
 static void free_index_list(Index *head);
 
+// 输出查找后的学生信息列表，返回用户选定的学生的结构体指针
 Student *list_search(Index *index_head, char *query)
 {
     system("cls");
@@ -80,6 +81,7 @@ Student *list_search(Index *index_head, char *query)
     }
 }
 
+// 以 query 为关键词，search_by 为依据进行查找，返回查找结果索引 head
 Index *search_student(int search_by, char *query)
 {
     Student *current = g_student_head;
@@ -114,6 +116,7 @@ Index *search_student(int search_by, char *query)
     return index_head;
 }
 
+// 释放查找结果索引
 static void free_index_list(Index *head)
 {
     while (head)

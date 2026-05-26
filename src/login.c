@@ -81,6 +81,7 @@ void user_login(const User *head, char *logged_username)
     }
 }
 
+// 修改 target 的第 current_choice 条信息
 static void edit_data(User *target, int current_choice)
 {
     display_info(current_choice);
@@ -110,6 +111,7 @@ static void display_info(const int current_choice)
         printf("输入密码。");
 }
 
+// 将用户输入的信息 target 与用户数据比对，返回比对结果
 static int verify_user(const User *head, const User *target)
 {
     for (const User *p = head; p; p = p->next)
@@ -130,16 +132,3 @@ static int verify_user(const User *head, const User *target)
     Sleep(1000);
     return 0;
 }
-
-/*
-登入
-正在以现有的用户登入。
-
-    用户名
-    密码
-
-信息
-  <Info Message>
-
-[ ↑/↓ ] 选择  [ Enter ] 键入  [ Esc ] 放弃登入
-*/

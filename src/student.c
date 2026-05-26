@@ -46,6 +46,7 @@ void delete_student(Student **head, Student *target)
     }
 }
 
+// 归并排序 合并链表
 static Student *merge(Student *left, Student *right, int ascending, int (*sort_by)(const Student *, const Student *, int))
 {
     if (!left)
@@ -66,6 +67,7 @@ static Student *merge(Student *left, Student *right, int ascending, int (*sort_b
     return result;
 }
 
+// 归并排序。ascending 升序/降序；sort_by 排序依据
 Student *merge_sort(Student *head, int ascending, int (*sort_by)(const Student *, const Student *, int))
 {
     if (!head || !head->next)

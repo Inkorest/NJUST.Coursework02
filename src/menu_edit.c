@@ -115,6 +115,7 @@ int menu_edit(Student *head, Student *target, int mode) // mode = 1: add
     }
 }
 
+// 修改 target 的第 current_choice 条信息
 static void edit_data(Student *head, Student *target, int current_choice)
 {
     display_info(current_choice);
@@ -219,22 +220,3 @@ static void display_info(const int current_choice)
         break;
     }
 }
-
-/*
-修改学生信息
-正在修改此学生的学生信息。
-
-学号
-姓名
-专业
-成绩1
-成绩2
-成绩3
-成绩4
-成绩5
-
-信息
-  <Info Message>
-
-[ ↑/↓ ] 选择  [ Enter ] 修改  [ Esc ] 退出修改
-*/

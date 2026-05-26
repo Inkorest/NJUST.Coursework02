@@ -9,6 +9,7 @@
 #define ENTER 13
 #define ESC 27
 
+// 通用交互式菜单函数
 int menu(const char *overview[], const char *choices[], const char *information[])
 {
     int current_choice = 0;

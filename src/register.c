@@ -79,6 +79,7 @@ void user_register(User *head, User *target)
     }
 }
 
+// 修改 target 的第 current_choice 条信息
 static void edit_data(User *head, User *target, int current_choice)
 {
     display_info(current_choice);
@@ -184,18 +185,3 @@ static void display_info(const int current_choice)
         break;
     }
 }
-
-/*
-注册
-正在注册新的用户。
-
-    用户名
-    密码
-    确认密码
-    手机号
-
-信息
-  <Info Message>
-
-[ ↑/↓ ] 选择  [ Enter ] 键入  [ Esc ] 放弃注册
-*/

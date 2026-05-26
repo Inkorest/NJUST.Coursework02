@@ -71,6 +71,7 @@ static void menu_register()
     g_user_head = new_user;
 }
 
+// 释放用户数据链表
 static void free_user_data(User *head)
 {
     while (head)
