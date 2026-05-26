@@ -8,7 +8,7 @@
 char g_logged_username[20] = {0};
 static const char users_file[] = "data/users.txt";
 
-void load_user_data()
+void load_user_data(User **head)
 {
     FILE *fp = fopen(users_file, "r");
     if (!fp)
@@ -17,7 +17,7 @@ void load_user_data()
         exit(EXIT_FAILURE);
     }
     char line[60];
-    g_user_head = NULL;
+    *head = NULL;
     while (fgets(line, sizeof(line), fp))
     {
         User *new_user = (User *)malloc(sizeof(*new_user));
@@ -27,8 +27,8 @@ void load_user_data()
             exit(EXIT_FAILURE);
         }
         sscanf(line, "%[^,], %[^,], %[^\n]", new_user->username, new_user->password, new_user->phone);
-        new_user->next = g_user_head;
-        g_user_head = new_user;
+        new_user->next = *head;
+        *head = new_user;
     }
     fclose(fp);
     return;

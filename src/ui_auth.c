@@ -13,7 +13,7 @@ static void free_user_data(User *head);
 
 int ui_auth()
 {
-    load_user_data();
+    load_user_data(&g_user_head);
     do
         switch (menu_main())
         {
