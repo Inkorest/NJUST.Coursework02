@@ -34,7 +34,7 @@ static Student *s_target = NULL;
 static int s_menu_sort_sort_by = 0;
 static int s_menu_edit_mode = 0;
 static int s_menu_search_search_by = 0;
-static char query[24];
+static char s_query[24];
 Index *s_index_head = NULL;
 static MenuId_t s_source_menu = 0;
 
@@ -143,6 +143,8 @@ static MenuId_t menu_search() // Menu 1
 static MenuId_t menu_query() // Menu 4
 {
     system("cls");
+    printf("\n\n\n\n\n[ 不输入而按下 Enter ] 返回");
+    gotoxy(0, 0);
     switch (s_menu_search_search_by)
     {
     case 0:
@@ -151,8 +153,8 @@ static MenuId_t menu_query() // Menu 4
         printf("请输入要查找的学号: ");
         while (1)
         {
-            safe_input(query, sizeof(query));
-            if (strlen(query) <= 16 && is_digit_str(query))
+            safe_input(s_query, sizeof(s_query));
+            if (strlen(s_query) <= 16 && is_digit_str(s_query))
                 break;
             gotoxy(20, 3);
             printf("请输入 16 位以内的合法学号。\n");
@@ -167,8 +169,8 @@ static MenuId_t menu_query() // Menu 4
         printf("请输入要查找的姓名: ");
         while (1)
         {
-            safe_input(query, sizeof(query));
-            if (strlen(query) <= 20 && is_digit_or_letter_or_blank_str(query))
+            safe_input(s_query, sizeof(s_query));
+            if (strlen(s_query) <= 20 && is_digit_or_letter_or_blank_str(s_query))
                 break;
             gotoxy(20, 3);
             printf("请输入 20 位以内的合法姓名。\n");
@@ -183,8 +185,8 @@ static MenuId_t menu_query() // Menu 4
         printf("请输入要查找的专业: ");
         while (1)
         {
-            safe_input(query, sizeof(query));
-            if (strlen(query) <= 20 && is_digit_or_letter_or_blank_str(query))
+            safe_input(s_query, sizeof(s_query));
+            if (strlen(s_query) <= 20 && is_digit_or_letter_or_blank_str(s_query))
                 break;
             gotoxy(20, 3);
             printf("请输入 20 位以内的合法专业。\n");
@@ -194,13 +196,15 @@ static MenuId_t menu_query() // Menu 4
         }
         break;
     }
+    if (!*s_query)
+        return MENU_SEARCH;
     return LIST_SEARCHED;
 }
 
 static MenuId_t list_searched() // Menu 7
 {
-    s_index_head = search_student(s_menu_search_search_by, query);
-    s_target = list_search(s_index_head, query);
+    s_index_head = search_student(s_menu_search_search_by, s_query);
+    s_target = list_search(s_index_head, s_query);
     if (s_target)
     {
         s_source_menu = LIST_SEARCHED;
