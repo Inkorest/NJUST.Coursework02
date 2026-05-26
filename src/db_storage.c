@@ -81,7 +81,7 @@ void load_student_data(const char *username, Student **head)
     fclose(fp);
 }
 
-void save_student_data(const char *username, const Student *head)
+void save_student_data(const char *username, Student *head)
 {
     char filename[50];
     snprintf(filename, sizeof(filename), "data/student_data/data_%s.txt", username);
@@ -91,14 +91,16 @@ void save_student_data(const char *username, const Student *head)
         printf("无法保存学生数据文件。\n");
         exit(EXIT_FAILURE);
     }
-    const Student *current = head;
+    Student *current = head;
     while (current)
     {
         fprintf(fp, "%s, %s, %s, %d, %d, %d, %d, %d\n",
                 current->id, current->name, current->major,
                 current->score[0], current->score[1], current->score[2],
                 current->score[3], current->score[4]);
+        Student *temp = current;
         current = current->next;
+        free(temp);
     }
     fclose(fp);
 }
