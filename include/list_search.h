@@ -8,7 +8,7 @@ typedef struct Index
     struct Index *next;
 } Index;
 
-Index *menu_query(int search_by);
-Student *list_search(Index *index_head);
+Student *list_search(Index *index_head, char *query);
+Index *search_student(int search_by, char *query);
 
 #endif

@@ -9,69 +9,9 @@
 #define ENTER 13
 #define ESC 27
 
-static char query[24];
-
-static Index *search_student(int search_by);
 static void free_index_list(Index *head);
 
-Index *menu_query(int search_by)
-{
-    system("cls");
-    switch (search_by)
-    {
-    case 0:
-        printf("主菜单 -> 查找学生信息 -> 通过学号查找\n");
-        printf("通过学号查找学生信息。\n\n");
-        printf("请输入要查找的学号: ");
-        while (1)
-        {
-            safe_input(query, sizeof(query));
-            if (strlen(query) <= 16 && is_digit_str(query))
-                break;
-            gotoxy(20, 3);
-            printf("请输入 16 位以内的合法学号。\n");
-            Sleep(1000);
-            gotoxy(20, 3);
-            printf("\33[K");
-        }
-        break;
-    case 1:
-        printf("主菜单 -> 查找学生信息 -> 通过姓名查找\n");
-        printf("通过姓名查找学生信息。\n\n");
-        printf("请输入要查找的姓名: ");
-        while (1)
-        {
-            safe_input(query, sizeof(query));
-            if (strlen(query) <= 20 && is_digit_or_letter_or_blank_str(query))
-                break;
-            gotoxy(20, 3);
-            printf("请输入 20 位以内的合法姓名。\n");
-            Sleep(1000);
-            gotoxy(20, 3);
-            printf("\33[K");
-        }
-        break;
-    case 2:
-        printf("主菜单 -> 查找学生信息 -> 通过专业查找\n");
-        printf("通过专业查找学生信息。\n\n");
-        printf("请输入要查找的专业: ");
-        while (1)
-        {
-            safe_input(query, sizeof(query));
-            if (strlen(query) <= 20 && is_digit_or_letter_or_blank_str(query))
-                break;
-            gotoxy(20, 3);
-            printf("请输入 20 位以内的合法专业。\n");
-            Sleep(1000);
-            gotoxy(20, 3);
-            printf("\33[K");
-        }
-        break;
-    }
-    return search_student(search_by);
-}
-
-Student *list_search(Index *index_head)
+Student *list_search(Index *index_head, char *query)
 {
     system("cls");
     printf("查找学生信息\n");
@@ -140,7 +80,7 @@ Student *list_search(Index *index_head)
     }
 }
 
-static Index *search_student(int search_by)
+Index *search_student(int search_by, char *query)
 {
     Student *current = g_student_head;
     Index *index_head = NULL;

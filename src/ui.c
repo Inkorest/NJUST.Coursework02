@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <windows.h>
+#include "utils.h"
 #include "menu.h"
 #include "menu_edit.h"
 #include "list.h"
@@ -18,7 +19,7 @@ typedef enum
     MENU_SEARCH,
     MENU_DISPLAY,
     MENU_STATISTICS,
-    MENU_EDIT,
+    MENU_QUERY,
     MENU_SORT,
     LIST_SORTED,
     LIST_SEARCHED,
@@ -32,6 +33,8 @@ typedef MenuId_t (*MenuFunc_t)();
 static Student *s_target = NULL;
 static int s_menu_sort_sort_by = 0;
 static int s_menu_edit_mode = 0;
+static int s_menu_search_search_by = 0;
+static char query[24];
 Index *s_index_head = NULL;
 static MenuId_t s_source_menu = 0;
 
@@ -40,6 +43,7 @@ static MenuId_t menu_search();     // Menu 1
 static MenuId_t menu_display();    // Menu 2
 static MenuId_t menu_statistics(); // Menu 3
 // static MenuId_t menu_edit();   // Menu 4
+static MenuId_t menu_query();      // Menu 4
 static MenuId_t menu_sort();       // Menu 5
 static MenuId_t list_sorted();     // Menu 6
 static MenuId_t list_searched();   // Menu 7
@@ -55,7 +59,7 @@ int ui()
                                      menu_search,
                                      menu_display,
                                      menu_statistics,
-                                     menu_edit,
+                                     menu_query,
                                      menu_sort,
                                      list_sorted,
                                      list_searched,
@@ -130,16 +134,73 @@ static MenuId_t menu_search() // Menu 1
         "通过姓名查找学生信息。",
         "通过专业查找学生信息。",
         NULL};
-    int search_by = menu(overview, choices, information);
-    if (search_by == -1)
+    s_menu_search_search_by = menu(overview, choices, information);
+    if (s_menu_search_search_by == -1)
         return MENU_MAIN;
-    s_index_head = menu_query(search_by);
+    return MENU_QUERY;
+}
+
+static MenuId_t menu_query() // Menu 4
+{
+    system("cls");
+    switch (s_menu_search_search_by)
+    {
+    case 0:
+        printf("主菜单 -> 查找学生信息 -> 通过学号查找\n");
+        printf("通过学号查找学生信息。\n\n");
+        printf("请输入要查找的学号: ");
+        while (1)
+        {
+            safe_input(query, sizeof(query));
+            if (strlen(query) <= 16 && is_digit_str(query))
+                break;
+            gotoxy(20, 3);
+            printf("请输入 16 位以内的合法学号。\n");
+            Sleep(1000);
+            gotoxy(20, 3);
+            printf("\33[K");
+        }
+        break;
+    case 1:
+        printf("主菜单 -> 查找学生信息 -> 通过姓名查找\n");
+        printf("通过姓名查找学生信息。\n\n");
+        printf("请输入要查找的姓名: ");
+        while (1)
+        {
+            safe_input(query, sizeof(query));
+            if (strlen(query) <= 20 && is_digit_or_letter_or_blank_str(query))
+                break;
+            gotoxy(20, 3);
+            printf("请输入 20 位以内的合法姓名。\n");
+            Sleep(1000);
+            gotoxy(20, 3);
+            printf("\33[K");
+        }
+        break;
+    case 2:
+        printf("主菜单 -> 查找学生信息 -> 通过专业查找\n");
+        printf("通过专业查找学生信息。\n\n");
+        printf("请输入要查找的专业: ");
+        while (1)
+        {
+            safe_input(query, sizeof(query));
+            if (strlen(query) <= 20 && is_digit_or_letter_or_blank_str(query))
+                break;
+            gotoxy(20, 3);
+            printf("请输入 20 位以内的合法专业。\n");
+            Sleep(1000);
+            gotoxy(20, 3);
+            printf("\33[K");
+        }
+        break;
+    }
     return LIST_SEARCHED;
 }
 
 static MenuId_t list_searched() // Menu 7
 {
-    s_target = list_search(s_index_head);
+    s_index_head = search_student(s_menu_search_search_by, query);
+    s_target = list_search(s_index_head, query);
     if (s_target)
     {
         s_source_menu = LIST_SEARCHED;
