@@ -123,10 +123,12 @@ static MenuId_t menu_search() // Menu 1
     const char *choices[] = {
         "学号",
         "姓名",
+        "专业",
         NULL};
     const char *information[] = {
         "通过学号查找学生信息。",
         "通过姓名查找学生信息。",
+        "通过专业查找学生信息。",
         NULL};
     int search_by = menu(overview, choices, information);
     if (search_by == -1)

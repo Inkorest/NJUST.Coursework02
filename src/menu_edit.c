@@ -136,7 +136,7 @@ static void edit_data(Student *head, Student *target, int current_choice)
                 printf("\33[K学号已存在，请重新输入。");
             }
             else
-                printf("\33[K请输入 16 位以内的数字学号。");
+                printf("\33[K请输入 16 位以内的合法学号。");
             Sleep(1000);
             gotoxy(18, 3);
             printf("\33[K");
