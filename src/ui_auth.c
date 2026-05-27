@@ -14,6 +14,7 @@ static void free_user_data(User *head);
 int ui_auth()
 {
     load_user_data(&g_user_head);
+    g_logged_username[0] = '\0';
     do
         switch (menu_main())
         {
