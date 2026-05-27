@@ -6,7 +6,7 @@
 #include "student.h"
 
 char g_logged_username[20] = {0};
-static const char users_file[] = "data/users.txt";
+static const char users_file[] = "users.txt";
 
 // 将 head 指向的链表保存到用户数据文件
 void load_user_data(User **head)
@@ -54,7 +54,7 @@ void save_user_data(User *target)
 void load_student_data(const char *username, Student **head)
 {
     char filename[50];
-    snprintf(filename, sizeof(filename), "data/student_data/data_%s.txt", username);
+    snprintf(filename, sizeof(filename), "data_%s.txt", username);
     FILE *fp = fopen(filename, "r");
     if (!fp)
     {
@@ -89,7 +89,7 @@ void load_student_data(const char *username, Student **head)
 void save_student_data(const char *username, Student *head)
 {
     char filename[50];
-    snprintf(filename, sizeof(filename), "data/student_data/data_%s.txt", username);
+    snprintf(filename, sizeof(filename), "data_%s.txt", username);
     FILE *fp = fopen(filename, "w");
     if (!fp)
     {
