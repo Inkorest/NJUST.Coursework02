@@ -14,8 +14,9 @@ void load_user_data(User **head)
     FILE *fp = fopen(users_file, "r");
     if (!fp)
     {
-        printf("无法加载用户数据文件。\n");
-        exit(EXIT_FAILURE);
+        fp = fopen(users_file, "w");
+        fclose(fp);
+        return;
     }
     char line[60];
     *head = NULL;
