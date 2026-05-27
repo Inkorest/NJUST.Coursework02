@@ -48,6 +48,9 @@ void user_register(User *head, User *target)
             if (added == 15 && (key == S || key == s))
             {
                 *target = cache;
+                gotoxy(0, 8);
+                printf("\33[K完成\n\33[K  注册成功。\n\n\33[K");
+                Sleep(1000);
                 return;
             }
         } while (key != 224 && key != ENTER && key != ESC);

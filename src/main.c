@@ -12,6 +12,7 @@ int main()
     while (current_page != -1)
         current_page = menu_table[current_page]();
     system("cls");
-    printf("已退出系统。\n");
+    printf("已退出系统。");
+    Sleep(1000);
     return 0;
 }
